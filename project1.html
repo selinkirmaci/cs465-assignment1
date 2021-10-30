@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html>
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+
+    attribute vec4 vPosition;
+    attribute vec4 vColor;
+    attribute vec4 zCoord;
+
+    varying vec4 fColor;
+
+    void
+    main()
+    {
+
+        gl_Position.x = vPosition.x;
+        gl_Position.y = vPosition.y;
+        gl_Position.z = zCoord.x;
+        gl_Position.w = 1.0;
+
+        fColor = vColor;
+
+        gl_PointSize = 30.0;
+    }
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+
+    precision mediump float;
+
+    varying vec4 fColor;
+
+    void
+    main()
+    {
+      float r = 0.0, delta = 0.0, alpha = 1.0;
+        vec2 cxy = 2.0 * gl_PointCoord - 1.0;
+        r = dot(cxy, cxy);
+        if (r > 1.0) {
+            discard;
+        }
+        gl_FragColor = fColor * alpha;
+    }
+</script>
+
+
+<script id="vertex-shader-gradient" type="x-shader/x-vertex">
+
+    attribute vec4 vPosition;
+    attribute vec4 vColor;
+
+    varying vec4 fColor;
+
+    void
+    main()
+    {
+        gl_Position = vPosition;
+        fColor = vColor;
+    }
+</script>
+
+<script id="fragment-shader-gradient" type="x-shader/x-fragment">
+
+    precision mediump float;
+
+    varying vec4 fColor;
+    varying vec4 fBindingRect;
+
+    void
+    main()
+    {
+        gl_FragColor = fColor;
+    }
+</script>
+
+<script type="text/javascript" src="../Common/webgl-utils.js"></script>
+<script type="text/javascript" src="../Common/initShaders.js"></script>
+<script type="text/javascript" src="../Common/MV.js"></script>
+<script type="text/javascript" src="project1.js"></script>
+<script src="https://kit.fontawesome.com/fddcd9ea78.js" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<link rel="stylesheet" href="style.css">
+
+
+<body>
+    <div>
+        <canvas id="gl-canvas" width="512" height="512">
+            >
+            Oops ... your browser doesn't support the HTML5 canvas element
+        </canvas>
+        <canvas id="gl-canvas-gradient" width="256" height="512">
+            >
+            Oops ... your browser doesn't support the HTML5 canvas element
+        </canvas>
+        <input type="range" min="0" max="360" value="50" class="slider" id="gradientColorRange" orient="vertical" style="writing-mode: bt-lr; /* IE */ -webkit-appearance: slider-vertical; /* WebKit */ width: 20px; height: 512px; padding: 0 5px; ">
+
+        <button id="redButton" style="background-color: red; color: white; height: 50px; width: 50px">
+        </button>
+        <button id="greenButton" style="background-color: green; color: white; height: 50px; width: 50px">
+        </button>
+        <button id="blueButton" style="background-color: blue; color: white; height: 50px; width: 50px">
+        </button>
+        <button id="yellowButton" style="background-color: yellow; color: white; height: 50px; width: 50px">
+        </button>
+        <button id="magentaButton" style="background-color: magenta; color: white; height: 50px; width: 50px">
+        </button>
+        <button id="cyanButton" style="background-color: cyan; color: white; height: 50px; width: 50px">
+        </button>
+    </div>
+    <div">
+        <button id="rectangleEmpty" class="far fa-square" style="height: 50px; width: 70px">
+        </button>
+        <button id="rectangleFilled" class="fas fa-square" style="height: 50px; width: 70px">
+        </button>
+        <button id="circleEmpty" class="far fa-circle" style="height: 50px; width: 70px">
+        </button>
+        <button id="circleFilled" class="fas fa-circle" style="height: 50px; width: 70px">
+        </button>
+        <button id="triEmpty" class="fas fa-chevron-up" style="height: 50px; width: 70px">
+        </button>
+        <button id="triFilled" class="fas fa-caret-up" style="height: 50px; width: 70px">
+        </button>
+        <button id="outShapeMode" class="fas fa-times" style="height: 50px; width: 70px">
+        </button>
+        <button id="delete" class="fas fa-times" style="height: 50px; width: 70px">
+        </button>
+        </div>
+
+        <div class="container">
+            <div draggable="true" class="box" title="1">A</div>
+            <div draggable="true" class="box" title="2">B</div>
+            <div draggable="true" class="box" title="3">C</div>
+            <div draggable="true" class="box" title="3">D</div>
+
+        </div>
+
+        <div>
+            <button id="saveButton" class="far fa-save" style="height: 50px; width: 250px; margin-top:10px;">
+            </button>
+            <button id="loadButton" class="fas fa-download" style="height: 50px; width: 250px; margin-top:10px; margin-left:20px;">
+            </button>
+        </div>
+
+
+</body>
+</html>
